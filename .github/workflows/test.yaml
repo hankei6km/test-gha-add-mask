@@ -50,9 +50,7 @@ jobs:
           SECRET_TEXT: 'ultra super secret'
 
       - name: Add mask
-        run: |
-          cat add_mask.txt
-          echo "${SECRET_TEXT}"
+        run: echo "::add-mask::$SECRET_TEXT"
         env:
           SECRET_TEXT: 'ultra super secret'
 
