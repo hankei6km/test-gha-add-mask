@@ -44,18 +44,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Check not masked
-        run: echo "${SECRET_TEXT}"
-        env:
-          SECRET_TEXT: 'ultra super secret'
+      - name: Set secet text to outputs
+        id: get_secret
+        run: echo '::set-output name=SECRET_TEXT::ultra super secret'
 
       - name: Add mask
         run: echo "::add-mask::$SECRET_TEXT"
         env:
-          SECRET_TEXT: 'ultra super secret'
+          SECRET_TEXT: ${{ steps.get_secret.outputs.SECRET_TEXT}}
 
       - name: Check masked
-        run: echo "${SECRET_TEXT}"
-        env:
-          SECRET_TEXT: 'ultra super secret'
+        run: echo 'ultra super secret'
 
