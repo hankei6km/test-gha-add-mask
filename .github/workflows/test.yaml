@@ -1,0 +1,46 @@
+name: Test add mask
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  simple-add-mask:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Show command
+        run: |
+          cat add_mask.txt
+          echo ""
+          cat secret_text.txt
+          echo ""
+
+      - name: Check not masked
+        run: echo "${SECRET_TEXT}"
+        env:
+          SECRET_TEXT: 'ultra super secret'
+
+      - name: Add mask
+        run: |
+          cat add_mask.txt secret_text.txt
+          echo ""
+
+      - name: Check masked
+        run: echo "${SECRET_TEXT}"
+        env:
+          SECRET_TEXT: 'ultra super secret'
+
+  check-in-other-job:
+    needs: simple-add-mask
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check
+        run: echo "${SECRET_TEXT}"
+        env:
+          SECRET_TEXT: 'ultra super secret'
