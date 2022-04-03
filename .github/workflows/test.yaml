@@ -12,19 +12,17 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Check not masked
-        run: echo "${SECRET_TEXT}"
-        env:
-          SECRET_TEXT: 'ultra super secret'
+        run: cat secret_text.txt
 
       - name: Add mask
         run: |
-          cat add_mask.txt secret_text.txt
-          echo ""
+          echo -n '::add-mask::' > cmd.txt
+          cat secret_text.txt >> cmd.txt
+          cat cmd.txt
+          rm cmd.txt
 
       - name: Check masked
-        run: echo "${SECRET_TEXT}"
-        env:
-          SECRET_TEXT: 'ultra super secret'
+        run: cat secret_text.txt
 
   check-in-other-job:
     needs: simple-add-mask
@@ -34,9 +32,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Check
-        run: echo "${SECRET_TEXT}"
-        env:
-          SECRET_TEXT: 'ultra super secret'
+        run: echo 'ultra super secret'
 
   anti-add-mask:
     runs-on: ubuntu-latest
