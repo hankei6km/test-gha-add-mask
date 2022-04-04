@@ -115,6 +115,9 @@ jobs:
         run: echo '"ultra super secret"'
 
       - name: Check each words
+        run: echo 'ultra A super B secret'
+
+      - name: Check each words(multi lines)
         run: | 
           echo 'ultra'
           echo '-- separator --'
