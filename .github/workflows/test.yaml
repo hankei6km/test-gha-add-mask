@@ -52,3 +52,38 @@ jobs:
       - name: Check masked
         run: echo 'ultra super secret'
 
+  use-in-other-command:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check not masked
+        run: echo -n 'ultra super secret' | sha256sum
+
+      - name: Set secet text to outputs
+        id: out_not_masked
+        run: echo '::set-output name=SECRET_TEXT::ultra super secret'
+
+      - name: Check outputs
+        run: echo -n "${SECRET_TEXT}" | sha256sum
+        env:
+          SECRET_TEXT: ${{ steps.out_not_masked.outputs.SECRET_TEXT}}
+
+      - name: Add mask
+        run: |
+          echo -n '::add-mask::' > cmd.txt
+          cat secret_text.txt >> cmd.txt
+          cat cmd.txt
+          rm cmd.txt
+
+      - name: Set secet text to outputs
+        id: out_masked
+        run: echo '::set-output name=SECRET_TEXT::ultra super secret'
+
+      - name: Check outputs
+        run: echo -n "${SECRET_TEXT}" | sha256sum
+        env:
+          SECRET_TEXT: ${{ steps.out_masked.outputs.SECRET_TEXT}}
+
+
