@@ -61,14 +61,14 @@ jobs:
       - name: Check not masked
         run: echo -n 'ultra super secret' | sha256sum
 
-          #- name: Set secet text to outputs
-          #  id: out_not_masked
-          #  run: echo '::set-output name=SECRET_TEXT::ultra super secret'
+      - name: Set secet text to outputs
+        id: out_not_masked
+        run: echo '::set-output name=SECRET_TEXT::ultra super secret'
 
-          #- name: Check outputs
-          #  run: echo -n "${SECRET_TEXT}" | sha256sum
-          #  env:
-          #    SECRET_TEXT: ${{ steps.out_not_masked.outputs.SECRET_TEXT}}
+      - name: Check outputs
+        run: echo -n "${SECRET_TEXT}" | sha256sum
+        env:
+          SECRET_TEXT: ${{ steps.out_not_masked.outputs.SECRET_TEXT}}
 
       - name: Add mask
         run: |
