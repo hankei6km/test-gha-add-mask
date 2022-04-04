@@ -86,4 +86,42 @@ jobs:
         env:
           SECRET_TEXT: ${{ steps.out_masked.outputs.SECRET_TEXT}}
 
+  split-by-blank:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check not masked
+        run: echo 'ultra super secret'
+
+      - name: Add mask
+        run: |
+          echo -n '::add-mask::' > cmd.txt
+          cat secret_text.txt >> cmd.txt
+          cat cmd.txt
+          rm cmd.txt
+
+      - name: Check masked
+        run: echo 'ultra super secret'
+
+      - name: Check with blank
+        run: echo 'start ultra super secret end'
+
+      - name: Check without blank
+        run: echo 'startultra super secretend'
+
+      - name: Check with quote
+        run: echo '"ultra super secret"'
+
+      - name: Check each words
+        run: echo 'ultra A super B secret'
+
+      - name: Check each words(multi lines)
+        run: | 
+          echo 'ultra'
+          echo '-- separator --'
+          echo 'super'
+          echo '-- separator --'
+          echo 'secret'
 
