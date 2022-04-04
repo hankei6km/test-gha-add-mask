@@ -111,7 +111,7 @@ jobs:
       - name: Check without blank
         run: echo 'startultra super secretend'
 
-      - name: Check with qiote
+      - name: Check with quote
         run: echo '"ultra super secret"'
 
 
