@@ -114,4 +114,11 @@ jobs:
       - name: Check with quote
         run: echo '"ultra super secret"'
 
+      - name: Check each words
+        run: | 
+          echo 'ultra'
+          echo '-- separator --'
+          echo 'super'
+          echo '-- separator --'
+          echo 'secret'
 
